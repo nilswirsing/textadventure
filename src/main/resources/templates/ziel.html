@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glückwunsch!</title>
+    <style>
+        body {
+            font-family: 'Consolas';
+            background: #eee;
+            color: #222;
+        }
+
+        .output {
+            background: #ccc;
+            border-radius: 5px;
+            margin-bottom: 1em;
+            padding: 1em;
+            white-space: pre-wrap;
+        }
+
+        table {
+            width: 25%;
+            border-collapse: collapse;
+            background-color: #fff;
+            margin-bottom: 2em;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1em;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Du hast das Ziel erreicht!</h1>
+    <div class="output" th:text="${output}"></div>
+    <h2>Benötigte Zeit:</h2>
+    <div th:text="${time}"></div>
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Spielzeit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entry : ${entries}">
+                <td><span th:text="${entry.name}">Name</span></td>
+                <td><span th:text="${entry.playtime}">Spielzeit</span></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Adventure</title>
+    <style>
+        body { font-family: 'Consolas'; background: #eee; color: #222; }
+        .output { background: #ccc; border-radius: 5px; margin-bottom: 1em; padding: 1em; white-space: pre-wrap; font-size: 20px; width: 75%;}
+        input { width: 60%; padding: 0.5em; border-radius: 5px;}
+    </style>
+</head>
+<body>
+    <h1>Text Adventure</h1>
+    <div class="output" th:text="${output}"></div>
+    <form th:action="@{/game}" method="post">
+        <input type="text" name="command" autofocus autocomplete="off" placeholder="Befehl eingeben..." required>
+        <button type="submit">Senden</button>
+    </form>
+</body>
+</html>
