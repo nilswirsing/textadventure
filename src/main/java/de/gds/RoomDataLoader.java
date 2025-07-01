@@ -10,7 +10,6 @@ public class RoomDataLoader implements CommandLineRunner {
     private final RoomRepository roomRepository;
     private final ItemRepository itemRepository;
 
-    
     public RoomDataLoader(RoomRepository roomRepository, ItemRepository itemRepository) {
         this.roomRepository = roomRepository;
         this.itemRepository = itemRepository;
