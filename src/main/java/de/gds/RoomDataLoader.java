@@ -17,7 +17,7 @@ public class RoomDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        AdventureModel model = new AdventureModel(3, 3);
+        AdventureModel model = new AdventureModel(3, 3, this.roomRepository);
         Room[][] rooms = model.getRooms();
         for (Room[] row : rooms) {
             for (Room room : row) {

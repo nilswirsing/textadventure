@@ -8,25 +8,37 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+
+import de.gds.repository.ItemRepository;
+import de.gds.repository.RoomRepository;
+
 import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/game")
 @SessionAttributes("adventureModel")
 public class AdventureController {
+    private final RoomRepository roomRepository;
+
+    @Autowired
+    public AdventureController(RoomRepository roomRepository, ItemRepository itemRepository) {
+        this.roomRepository = roomRepository;
+    }
+
     @ModelAttribute("adventureModel")
     public AdventureModel adventureModel() {
-        return new AdventureModel(3, 3);
+        return new AdventureModel(3, 3, this.roomRepository);
     }
 
     private long startTime = 0;
 
     @GetMapping("")
     public String showGame(Model model) {
-        de.gds.AdventureModel adventureModel = new de.gds.AdventureModel(3, 3);
+        de.gds.AdventureModel adventureModel = new de.gds.AdventureModel(3, 3, this.roomRepository);
         model.addAttribute("adventureModel", adventureModel);
         Room startRoom = adventureModel.getAdventurer().getRoom();
         Room currentRoom = adventureModel.getAdventurer().getRoom();

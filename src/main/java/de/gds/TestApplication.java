@@ -1,4 +1,4 @@
-package de.gds.repository;
+package de.gds;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
