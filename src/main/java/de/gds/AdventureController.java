@@ -1,9 +1,5 @@
 package de.gds;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -14,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
 import de.gds.repository.ItemRepository;
+import de.gds.repository.LeaderboardRepository;
 import de.gds.repository.RoomRepository;
 
 import org.springframework.ui.Model;
@@ -23,10 +20,12 @@ import org.springframework.ui.Model;
 @SessionAttributes("adventureModel")
 public class AdventureController {
     private final RoomRepository roomRepository;
+    private final LeaderboardRepository leaderboardRepository;
 
     @Autowired
-    public AdventureController(RoomRepository roomRepository, ItemRepository itemRepository) {
+    public AdventureController(RoomRepository roomRepository, ItemRepository itemRepository, LeaderboardRepository leaderboardRepository) {
         this.roomRepository = roomRepository;
+        this.leaderboardRepository = leaderboardRepository;
     }
 
     @ModelAttribute("adventureModel")
@@ -122,25 +121,14 @@ public class AdventureController {
     }
 
     private void saveEntry(String name, String playtime) {
-        try (FileWriter writer = new FileWriter("leaderboard.txt", true)) {
-            writer.write(name + ";" + playtime + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        leaderboardRepository.save(new de.gds.LeaderboardEntry(name, playtime));
     }
 
     private List<Entry> loadEntries() {
+        List<de.gds.LeaderboardEntry> dbEntries = leaderboardRepository.findTop5();
         List<Entry> entries = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";");
-                if (parts.length == 2) {
-                    entries.add(new Entry(parts[0], parts[1]));
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (de.gds.LeaderboardEntry e : dbEntries) {
+            entries.add(new Entry(e.getName(), e.getPlaytime()));
         }
         return entries;
     }
